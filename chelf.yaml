@@ -1,0 +1,1050 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/crescent-igor/Chelf/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: Chef
+    description: operations for chef
+  - name: User
+    description: operations for user
+paths:
+  /user:
+    get:
+      tags:
+        - admins
+      summary: searches Users
+      operationId: searchUser
+      description: search users and view them by admin
+      parameters:
+        - in: query
+          name: searchUsers
+          description: pass string to search User
+          schema:
+            type: string
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "400":
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: add User
+      operationId: addUser
+      description: Adds a User to the system
+      responses:
+        "201":
+          description: User created
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: an existing User already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: User to add
+  /chef:
+    get:
+      tags:
+        - admins
+      summary: searches chefs
+      operationId: searchChef
+      description: search chef and view them by admin
+      parameters:
+        - in: query
+          name: searchChef
+          description: pass string to search Chef
+          schema:
+            type: string
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Chef"
+        "400":
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: add Chef
+      operationId: addChef
+      description: Adds a Chef to the system
+      responses:
+        "201":
+          description: chef created
+        "400":
+          description: invalid input, object invalid
+        "409":
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Chef"
+        description: Inventory item to add
+  /chef/findFilter:
+    get:
+      tags:
+        - User
+      summary: Finds chefs by class, cuisine and rating
+      description: Choose category of Chef
+      operationId: findChefByClass
+      parameters:
+        - name: status
+          in: query
+          description: Class values that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/Chef/properties/class"
+        - name: cuisine
+          in: query
+          description: Cuisines to filter from
+          required: false
+          schema:
+            $ref: "#/components/schemas/Dish/properties/cuisine"
+        - name: rating
+          in: query
+          description: Rating that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/Chef/properties/avgRating"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Chef"
+        400:
+          description: Invalid status value
+
+  /dish/findFilter:
+    get:
+      tags:
+        - User
+      summary: Finds Dish by cuisine and rating
+      description: Choose category for dishes
+      operationId: findDishByClass
+      parameters:
+        - name: cuisine
+          in: query
+          description: Cuisines to filter from
+          required: false
+          schema:
+            $ref: "#/components/schemas/Dish/properties/cuisine"
+        - name: rating
+          in: query
+          description: Rating that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/Dish/properties/avgRating"
+
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dish"
+        400:
+          description: Invalid status value
+
+  /ingredient:
+    post:
+      tags:
+        - admins
+      summary: add ingredient
+      operationId: addIng
+      description: Adds a ingredient to the system
+      responses:
+        "201":
+          description: ingredient created
+        "400":
+          description: "invalid input, object invalid"
+        "409":
+          description: an existing ingredient already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ingredient"
+        description: Inventory item to add
+
+  /chef/{chefId}:
+    get:
+      tags:
+        - Chef
+      summary: get chef by ID
+      description: Returns a single chef
+      operationId: getchefById
+      parameters:
+        - name: chefId
+          in: path
+          description: ID of chef to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Chef"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Chef"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Chef not found
+    post:
+      tags:
+        - Chef
+      summary: Updates a chef with form data
+      operationId: updatechefWithForm
+      parameters:
+        - name: chefId
+          in: path
+          description: ID of chef that needs to be updated
+          required: true
+          schema:
+            type: string
+      responses:
+        "405":
+          description: Invalid input
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the chef
+                  type: string
+                status:
+                  description: Updated status of the chef
+                  type: string
+    delete:
+      tags:
+        - Chef
+      summary: Deletes a chef
+      operationId: deleteChef
+      parameters:
+        - name: chefId
+          in: path
+          description: Chef id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Chef not found
+
+  /dish/{dishId}:
+    post:
+      tags:
+        - Chef
+      summary: add a Dish
+      operationId: addDish
+      parameters:
+        - name: dishId
+          in: path
+          description: dish to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dish"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Dish"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+    get:
+      tags:
+        - Chef
+        - User
+      summary: get dish by dishId
+      description: Returns a dish
+      operationId: getDishById
+      parameters:
+        - name: dishId
+          in: path
+          description: ID of dish to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+      responses:
+        200:
+          description: dish is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dish"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Dish"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: User not found
+    delete:
+      tags:
+        - Chef
+      summary: Deletes a Dish
+      operationId: deleteDish
+      parameters:
+        - name: dishId
+          in: path
+          description: User id to delete
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+      responses:
+        "200":
+          description: Deleted Successfully
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Dish not found
+
+  /dish/{dishName}:
+    get:
+      tags:
+        - User
+      summary: get dish by dishName
+      description: Returns a dish
+      operationId: getDishByName
+      parameters:
+        - name: dishName
+          in: path
+          description: name of dish/dishes to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/name"
+      responses:
+        200:
+          description: dish is returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dish"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dish"
+        400:
+          description: Invalid name supplied
+        404:
+          description: Dishes not found
+
+  /user/{userId}:
+    get:
+      tags:
+        - User
+      summary: get user by ID
+      description: Returns a single user
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Chef"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Chef"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+    post:
+      tags:
+        - User
+      summary: Creates a user with form data
+      operationId: updateuserWithForm
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user that needs to be updated
+          required: true
+          schema:
+            type: string
+      responses:
+        "405":
+          description: Invalid input
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the user
+                  type: string
+    delete:
+      tags:
+        - User
+      summary: Deletes a user
+      operationId: deleteUser
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: User id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+
+  /user/{userId}/chef/{chefId}/Rating:
+    get:
+      tags:
+        - User
+      summary: get rating given to chef by ID
+      description: Returns a single user
+      operationId: getChefRating
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/User/properties/id"
+        - name: chefId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/Chef/properties/id"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rating"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Rating"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Rating not found
+    post:
+      tags:
+        - User
+      summary: Post a rating to the Chef
+      operationId: postChefRating
+      parameters:
+        - name: userId
+          in: path
+          description: ID of chef to rate
+          required: true
+          schema:
+            $ref: "#/components/schemas/User/properties/id"
+        - name: chefId
+          in: path
+          description: ID of user who is rating
+          required: true
+          schema:
+            $ref: "#/components/schemas/Chef/properties/id"
+        - name: ratingValue
+          in: path
+          description: Rate chef  between1-5
+          required: true
+          schema:
+            $ref: "#/components/schemas/Rating/properties/ratingValue"
+        - name: feedback
+          in: path
+          description: feedback from the user about the chef
+          required: true
+          schema:
+            $ref: "#/components/schemas/Rating/properties/feedback"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rating"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Rating"
+        "400":
+          description: Invalid IDs supplied
+    delete:
+      tags:
+        - User
+      summary: Deletes a Rating
+      operationId: deleteChefRating
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/User/properties/id"
+        - name: chefId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/Chef/properties/id"
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+
+  /user/{userId}/dish/{dishId}/Rating:
+    get:
+      tags:
+        - User
+      summary: get rating given to Dish by User
+      description: Returns a single user
+      operationId: getDishRating
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/User/properties/id"
+        - name: dishId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rating"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Rating"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Rating not found
+    post:
+      tags:
+        - User
+      summary: Post a rating to the Chef
+      operationId: postDishRating
+      parameters:
+        - name: userId
+          in: path
+          description: ID of chef to rate
+          required: true
+          schema:
+            $ref: "#/components/schemas/User/properties/id"
+        - name: dishId
+          in: path
+          description: ID of user who is rating
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+        - name: ratingValue
+          in: path
+          description: Rate chef  between1-5
+          required: true
+          schema:
+            $ref: "#/components/schemas/Rating/properties/ratingValue"
+        - name: feedback
+          in: path
+          description: feedback from the user about the chef
+          required: true
+          schema:
+            $ref: "#/components/schemas/Rating/properties/feedback"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rating"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Rating"
+        "400":
+          description: Invalid IDs supplied
+    delete:
+      tags:
+        - User
+      summary: Deletes a Rating
+      operationId: deleteDishRating
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/User/properties/id"
+        - name: dishId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+
+  /cart:
+    get:
+      tags:
+        - User
+      summary: get Dish details by ID from cart
+      description: Returns Dish details
+      operationId: getDishByIdFromCart
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Chef not found
+
+  /cart/dish/{dishId}:
+    post:
+      tags:
+        - User
+      summary: add a Dish to Cart
+      operationId: addDishCart
+      parameters:
+        - name: dishId
+          in: path
+          description: dishId to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+        - name: Qty
+          in: path
+          description: Number of people to serve
+          required: true
+          schema:
+            type: number
+            example: 2
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Dish not found
+    put:
+      tags:
+        - User
+      summary: Update an existing entry on Cart
+      operationId: updateDishInCart
+      parameters:
+        - name: dishId
+          in: path
+          description: dish to be Edited
+          required: true
+          schema:
+            $ref: "#/components/schemas/Dish/properties/id"
+        - name: Qty
+          in: path
+          description: New quantity of people to serve
+          required: true
+          schema:
+            type: number
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Pet not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+        - User
+      summary: Deletes a dish from the cart
+      operationId: deleteDishFromCart
+      parameters:
+        - name: dishId
+          description: Dish ID to delete
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dishName
+          in: header
+          description: Dish name to delete
+          required: false
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+
+  /order:
+    post:
+      tags:
+        - User
+      summary: Make an order
+      operationId: placeOrder
+      parameters:
+        - name: cart
+          in: path
+          description: submit cart to place order
+          required: true
+          schema:
+            $ref: "#/components/schemas/Cart"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Dish not found
+
+  /order/{orderId}:
+    put:
+      tags:
+        - User
+      summary: Update an existing Order like change Address or Payment Method
+      operationId: updateOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: Order to be Edited
+          required: true
+          schema:
+            $ref: "#/components/schemas/Order/properties/id"
+        - name: deliveryAddress
+          in: header
+          description: Change Address
+          required: false
+          schema:
+            $ref: "#/components/schemas/Order/properties/DeliveryAddress"
+        - name: paymentMethod
+          in: header
+          description: modify payment Method
+          required: false
+          schema:
+            $ref: "#/components/schemas/Order/properties/PaymentMethod"
+
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Pet not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+        - User
+      summary: Cancel Order
+      operationId: deleteOrder
+      parameters:
+        - name: orderId
+          description: Order ID to delete
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Order/properties/id"
+      responses:
+        "200":
+          description: Order Deleted
+
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Order not found
+
+components:
+  schemas:
+    Chef:
+      type: object
+      required:
+        - id
+        - name
+        - class
+
+      properties:
+        id:
+          type: string
+          example: "1001"
+        name:
+          type: string
+          example: Gordon Ramsey
+        class:
+          type: string
+          enum:
+            - Basic
+            - Exotic
+        Dishes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Dish/properties/id"
+        specialityDishes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Dish/properties/name"
+        specialityCuisines:
+          type: array
+          items:
+            $ref: "#/components/schemas/Dish/properties/cuisine"
+
+        rating:
+          type: array
+          items:
+            $ref: "#/components/schemas/Rating"
+        avgRating:
+          type: integer
+          minimum: 1
+          maximum: 5
+
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+
+      properties:
+        id:
+          type: string
+          example: "1001"
+        name:
+          type: string
+          example: Amrit Gupta
+        email:
+          type: string
+          format: email
+    Dish:
+      type: object
+      required:
+        - id
+        - name
+        - ingredients
+        - stepsToPrepare
+
+      properties:
+        id:
+          type: string
+          example: "DISH1001"
+        name:
+          type: string
+          example: "Spring Rolls"
+        rating:
+          type: array
+          items:
+            $ref: "#/components/schemas/Rating"
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ingredient/properties/id"
+        stepsToPrepare:
+          type: string
+          example: "1 Pour some water 2 Add ingrdient 1"
+        details:
+          type: string
+          example: "Spring rolls are a large variety of filled, rolled appetizers or dim sum found in East Asian, South Asian, and Southeast Asian cuisine."
+        cuisine:
+          type: string
+          enum:
+            - Indian
+            - Chinese
+            - Japanese
+            - Italian
+            - Mexican
+            - American
+            - Thai
+            - Mediteranean
+            - Kebabs
+            - Barbecue
+            - British
+            - German
+        avgRating:
+          type: integer
+          minimum: 1
+          maximum: 5
+    Ingredient:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          example: "ING1001"
+        name:
+          type: string
+          example: "cloves"
+        priceList:
+          type: array
+          items:
+            $ref: "#/components/schemas/pinAndPrice"
+    pinAndPrice:
+      type: object
+      required:
+        - cityPIN
+        - ingPrice
+      properties:
+        cityPIN:
+          type: string
+          example: "400124"
+        ingPrice:
+          type: number
+          example: 450.23
+    Cart:
+      type: object
+      required:
+        - deliveryPIN
+      properties:
+        deliveryPIN:
+          $ref: "#/components/schemas/pinAndPrice/properties/cityPIN"
+        dishEntry:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartDishEntry"
+
+    CartDishEntry:
+      type: object
+      properties:
+        dishId:
+          $ref: "#/components/schemas/Dish/properties/id"
+        dishName:
+          $ref: "#/components/schemas/Dish/properties/name"
+        qty:
+          type: integer
+        dishPrice:
+          type: number
+    Order:
+      type: object
+      required:
+        - id
+        - CartItems
+        - totalBill
+        - DeliveryAddress
+        - paymentMethod
+      properties:
+        id:
+          type: string
+          example: "ORD1001"
+        CartItems:
+          $ref: "#/components/schemas/Cart"
+        totalBill:
+          type: number
+          example: 10000
+        DeliveryAddress:
+          type: string
+          example: "D 404, Ganga Constella, Kharadi, Pune"
+        PaymentMethod:
+          type: string
+          enum:
+            - Debit Card
+            - Credit Card
+            - PayPal
+            - UPI
+            - Pay On Delivery
+    Rating:
+      type: object
+      required:
+        - userId
+        - userName
+        - ratingValue
+        - feedback
+      properties:
+        userId:
+          $ref: "#/components/schemas/User/properties/id"
+        userName:
+          $ref: "#/components/schemas/User/properties/name"
+        ratingValue:
+          type: number
+          minimum: 1
+          maximum: 5
+        feedback:
+          type: string
+          minLength: 10
+          maxLength: 50

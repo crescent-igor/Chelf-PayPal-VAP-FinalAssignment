@@ -19,7 +19,7 @@ In this case you can order the curry from chelf. Now to save money you can choos
 
 ![alt text][diag]
 
-[diag]: https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/Chelf.jpg 
+[diag]: https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/Chelf.png 
 
 ## How to use Chelf?
 ###  Customer

@@ -16,6 +16,8 @@ You are an Indian in Japan and crave your favourite Indian curry. You, in this c
 #### 
 In this case you can order the curry from chelf. Now to save money you can choose a basic chef and proceed ordering your ingredients. The ingredients would be priced based on your location that is Japan hence cost slightly higher than local. Your food will be delivered and you can cook it as it is just following instructions and adding ingredients. You can practice this regularly as it would provide you with authentic Indian curry in the cheapest price abroad.  
 
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+
 ## How to use Chelf?
 ###  Customer
 Sign up to chelf using your email, set up your username at chelf and you are ready to go. Browse the application for your favourite dishes by your favourite chefs from around the world. You can filter out the results based on cuisine, chef status and ratings. Add your choice to the cart along with the number of people to be served and place your order. The bill will be generated based on your meal and your delivery destination and the package will be at your doorstep soon. The package will contain clear instructions on how to prepare the dish from the ingredients which are labelled and easily identifiable. The package is curated to serve the number of people mentioned. Follow the steps and enjoy your meal. For any queries or complaints you can post a ticket on our application for a particular order. 

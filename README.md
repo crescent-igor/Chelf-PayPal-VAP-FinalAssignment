@@ -15,7 +15,9 @@ If you order the same dish through chelf, your dish will cost you based on your 
 You are an Indian in Japan and crave your favourite Indian curry. You, in this case are'nt the greatest of cooks and have no one who can cook for you. You can visit an Indian restaurant    but it is pretty far from your place and you can't afford going there everyday. 
 #### 
 In this case you can order the curry from chelf. Now to save money you can choose a basic chef and proceed ordering your ingredients. The ingredients would be priced based on your location that is Japan hence cost slightly higher than local. Your food will be delivered and you can cook it as it is just following instructions and adding ingredients. You can practice this regularly as it would provide you with authentic Indian curry in the cheapest price abroad.  
-https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/Chelf.jpg 
+[diag]
+
+[diag]: https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/Chelf.jpg 
 
 ## How to use Chelf?
 ###  Customer

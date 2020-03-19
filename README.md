@@ -23,11 +23,11 @@ In this case you can order the curry from chelf. Now to save money you can choos
 
 API documenatation availible at:
 
-[https://app.swaggerhub.com/apis-docs/panther_meh/Chelf/1.0.0]
+https://app.swaggerhub.com/apis-docs/panther_meh/Chelf/1.0.0
 
 API YAML schema at:
 
-[https://app.swaggerhub.com/apis/panther_meh/Chelf/1.0.0]
+https://app.swaggerhub.com/apis/panther_meh/Chelf/1.0.0
 
 
 ## How to use Chelf?

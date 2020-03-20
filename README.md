@@ -35,6 +35,7 @@ The system administrator has the authority to add and delete chefs after due che
 - Add/Delete Support Staff
 - Delete User
 - Add/Update/Delete ingredients to system
+- Add/Update/Delete ChelfDaily Collections
 ### Support
 Attend to register ticket complaints by users. Act on the complaint directly or redirect to concerned employees. Update complaint status accordingly.
 - Log In
@@ -68,6 +69,7 @@ Customers signed up and logged in to the site can browse through the chefs and d
 - Add/View/Update/Delete Rating for a Dish
 - Get cart items
 - Add/Edit/Delete Dish to cart
+- Add/Edit/Delete ChelfDailySubscription to the cart
 - Place an Order
 - View/Update/Delete an Order
 - Check order status

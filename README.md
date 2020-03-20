@@ -1,4 +1,4 @@
-# Chelf ![alt text](https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/chelf-logo.png)
+![alt text](https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/chelf-logo.png)
 
 YAML schema on swagger for Chelf
 

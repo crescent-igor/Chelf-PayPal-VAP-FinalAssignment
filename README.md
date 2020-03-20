@@ -1,3 +1,8 @@
+<p align="center">
+  
+  <img src="https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/chelf-logo.png">
+</p>
+
 ![alt text](https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/chelf-logo.png)
 
 YAML schema on swagger for Chelf

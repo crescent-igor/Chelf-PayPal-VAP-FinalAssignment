@@ -1,4 +1,4 @@
-# Chelf
+# Chelf [diag]
 YAML schema on swagger for Chelf
 
 This repository contains the schema for the proposed API called "Chelf" as part of the value added program conducted at VIT.

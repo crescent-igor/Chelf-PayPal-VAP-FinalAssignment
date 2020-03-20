@@ -6,7 +6,9 @@ This repository contains the schema for the proposed API called "Chelf" as part 
 "There is no sincere love than the love of food"
  
 This saying by playwright George Bernard Shaw can be considered the inspiration behind this application. Everyone likes having their favourite food from their favourite chefs, many people also don't mind experimenting with new dishes while some people want to try all there is to offer the world. Often, exotic and foreign dishes are sold at higher prices. The other choice would be to find the best restaurant in your city for a particular dish and travelling there everyday. Otherwise you order food which again is not fresh and may not taste exactly the best. Using chelf you can choose a dish from around the world by any chef and get it delivered to you. Now here's what is new, the package delivered to you will be a bunch of ingredients curated for easy usage, dish secrecy and contain the exact quantity required to cook the food. The customers then can prepare the dish using the ingredients by following a simple guide. This will enable the food cooked to be fresh and authentic. The pricing of food also is something which sets chelf apart as local  ingredients cost less and foreign ingredients cost slightly higher.
- ### Novelty
+### ChelfDaily
+Another feature of chelf is ChelfDaily. It is a food subscription program where curated dishes are served as collections. The food is delivered according to a time table which is revised regularly. The users can subscribe to the service by adding it to the cart. The collections have their own categories and ratings, they have been integrated into the cart order functionalities.  
+### Novelty
  The novelty of "Chelf" is that:
  1.  The dish prices vary across cities based on market prices of ingredients
  2.  The prices of exotic ingredients are provided at much lesser prices

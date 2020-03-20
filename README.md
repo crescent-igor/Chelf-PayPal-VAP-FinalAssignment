@@ -4,6 +4,10 @@
 </p>
 This repository contains the schema for the proposed API called "Chelf" as part of the value added program conducted at VIT. It is a play on words with Chef and self, as it defines the motive behind the appication, anyone can be a chef.
 
+"There is no sincere love than the love of food"
+
+This saying by playwright George Bernard Shaw can be considered the inspiration behind this application. Everyone likes having their favourite food from their favourite chefs, many people also dont mind experimenting with new dishes while some people want to try all there is the world has to offer. Often, exotic and foreign dishes are sold at higher prices. The other choice would be to find the best restaurant in your city for a particular dish and travelling there everyday. Otherwise you order food which again is not fresh and may not taste exactly the best. Using chelf you can choose a dish from around the world by any chef and get it delivered to you. Now here's what is new, the package delivered to you will be a bunch of ingredients curated for easy usage, dish secrecy and contain the exact quantity required to cook the food. The customers then can prepare the dish using the ingredients by following a simple guide. This will enable the food cooked to be fresh and authentic. The pricing of food also is something which sets chelf apart as local  ingredients cost less and foreign ingredients cost slightly higher.
+
 ![alt text][diag]
 
 [diag]: https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/Chelf.png 
@@ -70,12 +74,7 @@ Guest user is allowed to browse through the Chefs and Dishes. He can also add, u
 - View Dishes by Id or name or filters
 - Add/update/delete items from cart
 
-## What is Chelf?
-
-"There is no sincere love than the love of food"
-
-This saying by playwright George Bernard Shaw can be considered the inspiration behind this application. Everyone likes having their favourite food from their favourite chefs, many people also dont mind experimenting with new dishes while some people want to try all there is the world has to offer. Often, exotic and foreign dishes are sold at higher prices. The other choice would be to find the best restaurant in your city for a particular dish and travelling there everyday. Otherwise you order food which again is not fresh and may not taste exactly the best. Using chelf you can choose a dish from around the world by any chef and get it delivered to you. Now here's what is new, the package delivered to you will be a bunch of ingredients curated for easy usage, dish secrecy and contain the exact quantity required to cook the food. The customers then can prepare the dish using the ingredients by following a simple guide. This will enable the food cooked to be fresh and authentic. The pricing of food also is something which sets chelf apart as local  ingredients cost less and foreign ingredients cost slightly higher.To make it clear given below are a few scenarios:
-
+To make the application practical given below are a few scenarios:
 ### Scenario 1
 You want to have pasta by a particular chef from Rome. Yes, you can folllow one of his food shows but you need to go out and find all the ingredients required. Since you are in India, all the local spices and ingredients mentioned may not be availible, even if they are, they might not be the exact quality also foreign spices usually are more expensive. Lets assume you got your ingredients now cooking with the exact quantity and mix is difficult and as the spices may not be the same, you might end up with something else. 
 #### 

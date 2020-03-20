@@ -15,6 +15,59 @@ API YAML schema at:
 
 https://app.swaggerhub.com/apis/panther_meh/Chelf/1.0.0
 
+## Routes
+### Admin
+The system administrator, has the authority to add and delte chefs after due check. Also adds and deletes system support employees. Can also delete users if need be. Manages the ingredients data and the prices.
+- Log In
+- Log Out
+- Add/Delete Chefs
+- Add/Delete Support Staff
+- Delete User
+- Add/Update/Delete ingredients to system
+### Support
+Attend to registered ticket complaint by users. Act on the complaint directly or redirect to concerned employee. Update complaint status accordingly. 
+- Log In
+- Log Out
+- View Complaints
+- Update Comlpaint status
+### Chef
+Can browse through the site as a user as a chef is also a user with advanced functionalities. Addiotionaly chef can build his profile and add/modufy/delete dishes. The chef can also browse ingredients to find exact IDs of particular ingredients.
+- Log In
+- Log Out
+- Browse ingredients
+- Browse Chefs
+- Add Dishes
+- Update/Delete dishes he has added
+- All other User functions
+### User
+Customer signed up and logged in to the site can browse through the chefs and dishes. Required filters can be utilised to get desired results for dishes and chefs such as cuisine, rating, name and the chef class.The customer can then add the dishes to the cart and specify the quantity. He can also view the price of the dishes in the cart which is calculated in realtime in the back end. He can then process the order for the cart and specify the delivery address, payment method etc. The user can track the order till it gets delivered. The user can also register complaints against orders if facing any issues. 
+- Log In
+- Log Out
+- Browse Dishes by Id or name
+- Browse Dishes using filters
+  - Rating
+  - Cuisine
+- Browse Chef profiles by Id or name
+- Browse Chef using filters
+  - Class
+  - Rating
+  - Cuisine
+- View/Update/Delete Self profile
+- Add/View/Update/Delete Rating for a Chef
+- Add/View/Update/Delete Rating for a Dish
+- Get cart items
+- Add/Edit/Delete Dish to cart
+- Place an Order
+- View/Update/Delete an Order
+- Check order status
+- Post a complaint regarding an order
+- View/Update the complaint
+### Guest
+Guest user is allowed to browse through the Chefs and Dishes. He can also add, updaate and delete dishes to the cart. The guest however cannot place orders,give ratings or perform any other functions.
+- Sign Up and become a User
+- View Chefs by Id or name or filters
+- View Dishes by Id or name or filters
+- Add/update/delete items from cart
 
 "There is no sincere love than the love of food"
 

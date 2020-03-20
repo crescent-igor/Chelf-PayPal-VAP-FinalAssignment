@@ -1,7 +1,7 @@
 openapi: 3.0.0
 # Added by API Auto Mocking Plugin
 servers:
-# Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/panther_meh/Chelf/1.0.0
   - description: SwaggerHub API Auto Mocking
@@ -23,12 +23,12 @@ tags:
   - name: User
     description: operations for user
   - name: Guest
-    description: Opeartions for guest 
+    description: Opeartions for guest
   - name: Support
-    description: Opeartions for customer support 
+    description: Opeartions for customer support
 
 paths:
-  /user:
+  /admin/user:
     get:
       tags:
         - Admin
@@ -38,7 +38,7 @@ paths:
       parameters:
         - name: id
           in: query
-          required: false       
+          required: false
           description: id of user
           schema:
             $ref: "#/components/schemas/User/properties/id"
@@ -53,8 +53,8 @@ paths:
                   $ref: "#/components/schemas/User"
         "400":
           description: bad input parameter
-        
-  /support:
+
+  /admin/support:
     get:
       tags:
         - Admin
@@ -91,12 +91,12 @@ paths:
           description: invalid input, object invalid
         "409":
           description: an existing staff already exists
-  
-  /support/{supportId}:
+
+  /admin/support/{supportId}:
     delete:
       tags:
         - Admin
-      summary: Deletes support staff profile  by Admin 
+      summary: Deletes support staff profile  by Admin
       operationId: deleteSupport
       parameters:
         - name: supportId
@@ -111,13 +111,10 @@ paths:
         "404":
           description: Chef not found
 
-  
-  
-  /chef/findFilter:
+  /user/chef/findFilter:
     get:
       tags:
         - User
-        - Guest
       summary: Finds chefs by class, cuisine and rating and returrns an array
       description: Choose category of Chef
       operationId: findChefByClass
@@ -152,11 +149,86 @@ paths:
         400:
           description: Invalid status value
 
-  /dish/findFilter:
+  /user/chelfDailyCollection/findFilter:
     get:
       tags:
         - User
+      summary: Finds collections
+      description: find collections
+      operationId: findChefDailyCollection
+      parameters:
+        - name: name
+          in: query
+          description: name of collection
+          required: false
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/name"
+        - name: price
+          in: query
+          description: price upper limit
+          required: false
+          schema:
+            type: number
+        - name: category
+          in: query
+          description: category that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/cat"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChelfDailyMenu"
+        400:
+          description: Invalid status value
+
+  /guest/chef/findFilter:
+    get:
+      tags:
         - Guest
+      summary: Finds chefs by class, cuisine and rating and returrns an array
+      description: Choose category of Chef
+      operationId: findChefByClassForGuest
+      parameters:
+        - name: status
+          in: query
+          description: Class values that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/Chef/properties/class"
+        - name: cuisine
+          in: query
+          description: Cuisines to filter from
+          required: false
+          schema:
+            $ref: "#/components/schemas/Dish/properties/cuisine"
+        - name: rating
+          in: query
+          description: Rating that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/Chef/properties/avgRating"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChefView"
+        400:
+          description: Invalid status value
+
+  /user/dish/findFilter:
+    get:
+      tags:
+        - User
       summary: Finds Dish by cuisine and rating, returns an array of dishes
       description: Choose category for dishes
       operationId: findDishByClass
@@ -185,7 +257,39 @@ paths:
         400:
           description: Invalid status value
 
-  /ingredient:
+  /guest/dish/findFilter:
+    get:
+      tags:
+        - Guest
+      summary: Finds Dish by cuisine and rating, returns an array of dishes
+      description: Choose category for dishes
+      operationId: findDishByClassForGuest
+      parameters:
+        - name: cuisine
+          in: query
+          description: Cuisines to filter from
+          required: false
+          schema:
+            $ref: "#/components/schemas/DishView/properties/cuisine"
+        - name: rating
+          in: query
+          description: Rating that need to be considered for filter
+          required: false
+          schema:
+            $ref: "#/components/schemas/DishView/properties/avgRating"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishView"
+        400:
+          description: Invalid status value
+
+  /admin/ingredient:
     post:
       tags:
         - Admin
@@ -206,7 +310,7 @@ paths:
               $ref: "#/components/schemas/Ingredient"
         description: Ingredient to add
 
-  /ingredient/{ingredientId}:
+  /admin/ingredient/{ingredientId}:
     get:
       tags:
         - Admin
@@ -254,11 +358,10 @@ paths:
               $ref: "#/components/schemas/Ingredient"
         description: Ingredient Updates
 
-  /ingredient/{ingredientName}:
+  /admin/ingredient/{ingredientName}:
     get:
       tags:
         - Admin
-        - Chef
       summary: Get ingredient by name
       operationId: getIngByName
       description: Read ingredient data
@@ -278,7 +381,31 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/IngredientView"
-  /chef:
+
+  /chef/ingredient/{ingredientName}:
+    get:
+      tags:
+        - Chef
+      summary: Get ingredient by name
+      operationId: getIngByNameChef
+      description: Read ingredient data
+      parameters:
+        - name: ingredientName
+          in: path
+          description: ID of ingredient that needs to be read
+          required: true
+          schema:
+            $ref: "#/components/schemas/Ingredient/properties/name"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IngredientView"
+  /admin/chef:
     get:
       tags:
         - Admin
@@ -316,13 +443,191 @@ paths:
         "409":
           description: an existing item already exists
 
-  
-  
+  /admin/chelfDaily:
+    get:
+      tags:
+        - Admin
+      summary: searches chelfDaily for collections
+      operationId: searchChefDaily
+      description: search chef and view them by Admin
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChelfDailyMenu"
+        "400":
+          description: bad input parameter
+    post:
+      tags:
+        - Admin
+      summary: add Chef
+      operationId: addChelfDaily
+      description: Adds a ChelfDaily to the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChelfDailyMenu"
+        description: Chef to add
+      responses:
+        "201":
+          description: chef created
+        "400":
+          description: invalid input, object invalid
+        "409":
+          description: an existing item already exists
+  /admin/chelfDaily/chelfDailyCollection:
+    post:
+      tags:
+        - Admin
+      summary: add Chef
+      operationId: addChelfDailyCollection
+      description: Adds a ChelfDailyCollection to the Menu
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChelfDailyCollection"
+        description: ChelfDailyCollection to add
+      responses:
+        "201":
+          description: chefDailyCollection created
+        "400":
+          description: invalid input, object invalid
+        "409":
+          description: an existing item already exists
+    get:
+      tags:
+        - Admin
+      summary: searches chelfDaily for collections
+      operationId: searchChefDailyCollection
+      description: search collection
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: id of collection to be viewed
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/id"
+
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChelfDailyCollection"
+        "400":
+          description: bad input parameter
+
+    delete:
+      tags:
+        - Admin
+      summary: deletes collections for given ID
+      operationId: deleteChefDailyCollection
+      description: delete collection
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: id of collection to be viewed
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/id"
+
+      responses:
+        "200":
+          description: deleted
+
+        "400":
+          description: bad input parameter
+    put:
+      tags:
+        - Admin
+      summary: updates chelfDaily for collections
+      operationId: updateChefDailyCollection
+      description: update collection
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: id of collection to be viewed
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChelfDailyCollection"
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChelfDailyCollection"
+        "400":
+          description: bad input parameter
+
+  /admin/chef/{chefId}:
+    delete:
+      tags:
+        - Admin
+      summary: Deletes chef by admin
+      operationId: deleteChefByAdmin
+      parameters:
+        - name: chefId
+          in: path
+          description: Chef id to delete
+          required: true
+          schema:
+            $ref: "#/components/schemas/Chef/properties/id"
+      responses:
+        "200":
+          description: Deleted
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Chef not found
+  /user/chef/{chefId}:
+    get:
+      tags:
+        - User
+      summary: View chefs by id by user
+      description: returns the data of a single chef
+      operationId: getchefByIdToUser
+      parameters:
+        - name: chefId
+          in: path
+          description: ID of chef to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: successful operation for user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChefView"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ChefView"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Chef not found
   /chef/{chefId}:
     get:
       tags:
         - Chef
-        - User
       summary: View chefs by id
       description: returns the data of a single chef
       operationId: getchefById
@@ -343,15 +648,6 @@ paths:
             application/xml:
               schema:
                 $ref: "#/components/schemas/Chef"
-        "201":
-          description: successful operation for user
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ChefView"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/ChefView"
         "400":
           description: Invalid ID supplied
         "404":
@@ -376,14 +672,11 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: "#/components/schemas/ChefView"
-                
-              
-                  
+
     delete:
       tags:
         - Chef
-        - Admin
-      summary: Deletes one's own profile or by Admin 
+      summary: Deletes one's own profile
       operationId: deleteChef
       parameters:
         - name: chefId
@@ -397,9 +690,7 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Chef not found
-  
-  
-  
+
   /chef/{chefId}/Balance:
     get:
       tags:
@@ -428,8 +719,8 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Chef not found
-  
-  /dish:
+
+  /chef/dish:
     post:
       tags:
         - Chef
@@ -439,8 +730,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Dish"
-        description: Dish to add
+              type: object
+              properties:
+                name:
+                  $ref: "#/components/schemas/Dish/properties/name"
+                stepsToPrepare:
+                  $ref: "#/components/schemas/Dish/properties/stepsToPrepare"
+                userStepsToPrepare:
+                  $ref: "#/components/schemas/Dish/properties/userStepsToPrepare"
+                details:
+                  $ref: "#/components/schemas/Dish/properties/details"
+                cuisine:
+                  $ref: "#/components/schemas/Dish/properties/cuisine"
+                photoUrls:
+                  $ref: "#/components/schemas/Dish/properties/photoUrls"
+              description: Dish to add
 
       responses:
         "200":
@@ -456,15 +760,33 @@ paths:
           description: Invalid ID supplied
         "404":
           description: User not found
- 
-  /dish/{dishId}:
     get:
       tags:
         - Chef
+      summary: get dishes of chef logged in
+      description: Returns a dish
+      operationId: getChefDishes
+      responses:
+        200:
+          description: dish View is returned for user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dish"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Dish not found
+
+  /user/dish/{dishId}:
+    get:
+      tags:
         - User
       summary: get dish by dishId
       description: Returns a dish
-      operationId: getDishById
+      operationId: getDishByIdToUser
       parameters:
         - name: dishId
           in: path
@@ -482,6 +804,26 @@ paths:
             application/xml:
               schema:
                 $ref: "#/components/schemas/DishView"
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Dish not found
+
+  /chef/dish/{dishId}:
+    get:
+      tags:
+        - Chef
+      summary: get dish by dishId
+      description: Returns a dish
+      operationId: getDishById
+      parameters:
+        - name: dishId
+          in: path
+          description: ID of dish to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/DishView/properties/id"
+      responses:
         201:
           description: dish is returned for chef if its his own dish
           content:
@@ -512,7 +854,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Dish"
+              type: object
+              properties:
+                name:
+                  $ref: "#/components/schemas/Dish/properties/name"
+                stepsToPrepare:
+                  $ref: "#/components/schemas/Dish/properties/stepsToPrepare"
+                userStepsToPrepare:
+                  $ref: "#/components/schemas/Dish/properties/userStepsToPrepare"
+                details:
+                  $ref: "#/components/schemas/Dish/properties/details"
+                cuisine:
+                  $ref: "#/components/schemas/Dish/properties/cuisine"
+                photoUrls:
+                  $ref: "#/components/schemas/Dish/properties/photoUrls"
       responses:
         200:
           description: dish is returned for chef if its his own dish
@@ -547,12 +902,10 @@ paths:
         "404":
           description: Dish not found
 
-  
-  /chef/{chefName}:
+  /user/chef/{chefName}:
     get:
       tags:
         - User
-        - Guest
       summary: get Chef by ChefName
       description: Returns a dish
       operationId: getChefByName
@@ -581,12 +934,44 @@ paths:
           description: Invalid name supplied
         404:
           description: Chef not found
-  
-  /dish/{dishName}:
+
+  /guest/chef/{chefName}:
+    get:
+      tags:
+        - Guest
+      summary: get Chef by ChefName
+      description: Returns a dish
+      operationId: getChefByNameForGuest
+      parameters:
+        - name: chefName
+          in: path
+          description: name of chef/chefs to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChefView/properties/name"
+      responses:
+        200:
+          description: Chef(s) are returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChefView"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChefView"
+        400:
+          description: Invalid name supplied
+        404:
+          description: Chef not found
+
+  /user/dish/{dishName}:
     get:
       tags:
         - User
-        - Guest
       summary: get dish by dishName
       description: Returns a dish
       operationId: getDishByName
@@ -615,8 +1000,41 @@ paths:
           description: Invalid name supplied
         404:
           description: Dishes not found
-  /user/SignUp:
-     post:
+
+  /guest/dish/{dishName}:
+    get:
+      tags:
+        - Guest
+      summary: get dish by dishName
+      description: Returns a dish
+      operationId: getDishByNameForGuest
+      parameters:
+        - name: dishName
+          in: path
+          description: name of dish/dishes to return
+          required: true
+          schema:
+            $ref: "#/components/schemas/DishView/properties/name"
+      responses:
+        200:
+          description: dish is returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishView"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishView"
+        400:
+          description: Invalid name supplied
+        404:
+          description: Dishes not found
+  /guest/SignUp:
+    post:
       tags:
         - Guest
       summary: Sign up as new User
@@ -654,13 +1072,11 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Dish not found
-  /login:
+  /user/login:
     get:
       tags:
         - User
-        - Chef
-        - Admin
-        - Support
+
       summary: Logs user into the system
       operationId: loginUser
       parameters:
@@ -677,7 +1093,7 @@ paths:
           schema:
             $ref: "#/components/schemas/Entity/properties/password"
       responses:
-        '200':
+        "200":
           description: User logged in
           headers:
             X-Rate-Limit:
@@ -694,7 +1110,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-        '201':
+        "400":
+          description: Invalid username/password supplied
+  /chef/login:
+    get:
+      tags:
+        - Chef
+      summary: Logs user into the system
+      operationId: loginChef
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            $ref: "#/components/schemas/Entity/properties/username"
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            $ref: "#/components/schemas/Entity/properties/password"
+      responses:
+        "201":
           description: Chef logged in
           headers:
             X-Rate-Limit:
@@ -711,7 +1149,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Chef"
-        '202':
+        "400":
+          description: Invalid username/password supplied
+  /admin/login:
+    get:
+      tags:
+        - Admin
+      summary: Logs user into the system
+      operationId: loginAdmin
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            $ref: "#/components/schemas/Entity/properties/username"
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            $ref: "#/components/schemas/Entity/properties/password"
+      responses:
+        "202":
           description: Admin logged in
           headers:
             X-Rate-Limit:
@@ -728,7 +1188,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Admin"
-        '203':
+        "400":
+          description: Invalid username/password supplied
+  /support/login:
+    get:
+      tags:
+        - Support
+      summary: Logs user into the system
+      operationId: loginSupport
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            $ref: "#/components/schemas/Entity/properties/username"
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            $ref: "#/components/schemas/Entity/properties/password"
+      responses:
+        "203":
           description: Support staff logged in
           headers:
             X-Rate-Limit:
@@ -744,18 +1226,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Support"            
-        '400':
+                $ref: "#/components/schemas/Support"
+        "400":
           description: Invalid username/password supplied
-  /logout:
+  /user/logout:
     get:
       tags:
         - User
-        - Chef
-        - Admin
-        - Support
       summary: Logs out current logged in user session
       operationId: logoutUser
+      responses:
+        default:
+          description: successful operation
+  /chef/logout:
+    get:
+      tags:
+        - Chef
+      summary: Logs out current logged in chef session
+      operationId: logoutChef
+      responses:
+        default:
+          description: successful operation
+  /admin/logout:
+    get:
+      tags:
+        - Admin
+      summary: Logs out current logged in admin session
+      operationId: logoutAdmin
+      responses:
+        default:
+          description: successful operation
+  /support/logout:
+    get:
+      tags:
+        - Support
+      summary: Logs out current logged in support staff session
+      operationId: logoutSupport
       responses:
         default:
           description: successful operation
@@ -791,7 +1297,6 @@ paths:
     delete:
       tags:
         - User
-        - Admin
       summary: Deletes a user if he is logged in and wants to delete his own account
       operationId: deleteUser
       parameters:
@@ -835,7 +1340,7 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/User/properties/email"
-        
+
       responses:
         "200":
           description: Success
@@ -1045,7 +1550,7 @@ paths:
         "404":
           description: User not found
 
-  /cart:
+  /user/cart:
     get:
       tags:
         - User
@@ -1067,11 +1572,95 @@ paths:
         "404":
           description: Chef not found
 
-  /cart/dish/{dishId}:
+  /user/cart/ChelfDailyCollection/{collectionId}:
     post:
       tags:
         - User
-        - Guest
+      summary: add a Collection to Cart
+      operationId: addColectionCart
+      parameters:
+        - name: collectionId
+          in: path
+          description: collectionID to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/id"
+        - name: Qty
+          in: path
+          description: Number of people to serve
+          required: true
+          schema:
+            type: number
+            example: 2
+        - name: PIN
+          in: path
+          description: dishId to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/pinAndPrice/properties/cityPIN"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Collection not found
+    put:
+      tags:
+        - User
+      summary: Update an existing Collection entry on Cart
+      operationId: updateCollectionInCart
+      parameters:
+        - name: collectionId
+          in: path
+          description: dish to be Edited
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/id"
+        - name: Qty
+          in: path
+          description: New quantity of people to serve
+          required: true
+          schema:
+            type: number
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Pet not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+        - User
+      summary: Deletes a dish from the cart
+      operationId: deleteCollectionFromCart
+      parameters:
+        - name: collectionId
+          description: Collection ID to delete
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ChelfDailyCollection/properties/id"
+      responses:
+        "200":
+          description: deleted
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Collection not found
+
+  /user/cart/dish/{dishId}:
+    post:
+      tags:
+        - User
       summary: add a Dish to Cart
       operationId: addDishCart
       parameters:
@@ -1088,6 +1677,12 @@ paths:
           schema:
             type: number
             example: 2
+        - name: PIN
+          in: path
+          description: dishId to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/pinAndPrice/properties/cityPIN"
       responses:
         "200":
           description: successful operation
@@ -1105,7 +1700,6 @@ paths:
     put:
       tags:
         - User
-        - Guest
       summary: Update an existing entry on Cart
       operationId: updateDishInCart
       parameters:
@@ -1131,9 +1725,97 @@ paths:
     delete:
       tags:
         - User
-        - Guest
       summary: Deletes a dish from the cart
       operationId: deleteDishFromCart
+      parameters:
+        - name: dishId
+          description: Dish ID to delete
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: dishName
+          in: header
+          description: Dish name to delete
+          required: false
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+
+  /guest/cart/dish/{dishId}:
+    post:
+      tags:
+        - Guest
+      summary: add a Dish to Cart
+      operationId: addDishCartForGuest
+      parameters:
+        - name: dishId
+          in: path
+          description: dishId to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/DishView/properties/id"
+        - name: Qty
+          in: path
+          description: Number of people to serve
+          required: true
+          schema:
+            type: number
+            example: 2
+        - name: PIN
+          in: path
+          description: dishId to be added
+          required: true
+          schema:
+            $ref: "#/components/schemas/pinAndPrice/properties/cityPIN"
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Dish not found
+    put:
+      tags:
+        - Guest
+      summary: Update an existing entry on Cart
+      operationId: updateDishInCartForGuest
+      parameters:
+        - name: dishId
+          in: path
+          description: dish to be Edited
+          required: true
+          schema:
+            $ref: "#/components/schemas/DishView/properties/id"
+        - name: Qty
+          in: path
+          description: New quantity of people to serve
+          required: true
+          schema:
+            type: number
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Pet not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+        - Guest
+      summary: Deletes a dish from the cart
+      operationId: deleteDishFromCartForGuest
       parameters:
         - name: dishId
           description: Dish ID to delete
@@ -1207,7 +1889,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Order/properties/id"
-        
+
       responses:
         "200":
           description: successful operation
@@ -1286,7 +1968,7 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Order not found
-  
+
   /user/{userId}/order/{orderId}/status:
     get:
       tags:
@@ -1307,7 +1989,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Order/properties/id"
-        
+
       responses:
         "200":
           description: successful operation
@@ -1322,8 +2004,7 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Order not found
-  
-  
+
   /user/{userId}/order/{orderId}/complaint:
     post:
       tags:
@@ -1368,7 +2049,6 @@ paths:
         "404":
           description: Dish not found
 
-  
   /user/{userId}/order/{orderId}/complaint/{complaintId}:
     get:
       tags:
@@ -1409,7 +2089,7 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Chef not found
-    
+
     put:
       tags:
         - User
@@ -1454,9 +2134,8 @@ paths:
           description: Pet not found
         "405":
           description: Validation exception
-    
 
-  /Support/complaint/{complaintId}:
+  /support/complaint/{complaintId}:
     get:
       tags:
         - Support
@@ -1484,7 +2163,7 @@ paths:
           description: Invalid ID supplied
         "404":
           description: Complaint not found
-    
+
     put:
       tags:
         - Support
@@ -1503,7 +2182,6 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/Complaint/properties/status"
-        
 
       responses:
         "400":
@@ -1512,13 +2190,12 @@ paths:
           description: Pet not found
         "405":
           description: Validation exception
-  
-    
+
 components:
   schemas:
     Entity:
       type: object
-      description: A real life entity to the system who can get/post/delete/put data 
+      description: A real life entity to the system who can get/post/delete/put data
       required:
         - username
         - password
@@ -1529,10 +2206,11 @@ components:
           type: string
           minimum: 8
           maximum: 16
+          format: password
     Chef:
       allOf:
-        - $ref: "#/components/schemas/Entity" 
-        - $ref: "#/components/schemas/User" 
+        - $ref: "#/components/schemas/Entity"
+        - $ref: "#/components/schemas/User"
       description: Schema for chef, contains attributes realated to chef, that is login credentials, id, his class, photo, Dishes, specialities, ratings and account balance
       type: object
       required:
@@ -1555,13 +2233,13 @@ components:
             - Head Chef
             - Sous Chef
             - Station Chef
-            - Commis Chef 
-            
+            - Commis Chef
+
         photoUrls:
           type: array
           items:
             type: string
-        
+
         Dishes:
           description: array of dish Ids of dishes which the chef has added
           type: array
@@ -1591,7 +2269,6 @@ components:
         accountBalance:
           type: number
           minimum: 0.0
-          
 
     ChefView:
       description: The chefView schema takes care of abstraction of a few properties from the chef class. As some properties are hidden when the user browses the chef profile, it consists of the data which is necessary to be shown
@@ -1620,19 +2297,19 @@ components:
       description: developer who has access to all users, chef and support staff. Chefs and spport staff cannot signUp directly to the system and need to be added by the admin
       allOf:
         - $ref: "#/components/schemas/Entity"
-    
+
     Support:
-      description: Schema for customer support and care, they attend complaints made by the customers and update the status at various stages 
+      description: Schema for customer support and care, they attend complaints made by the customers and update the status at various stages
       allOf:
         - $ref: "#/components/schemas/Entity"
       type: object
       properties:
         id:
-         type: string
-         example: "EMP109"
+          type: string
+          example: "EMP109"
       required:
         - id
-      
+
     User:
       description: Customer with credentials, name, DOB, email. The profile consists of the list of complaints made, list of items in the cart at present,list of orders placed or cancelled. It also requires a default PIN for ingredient price calculations
       allOf:
@@ -1653,7 +2330,7 @@ components:
         email:
           type: string
           format: email
-        DOB: 
+        DOB:
           type: string
           format: date
         Complaint:
@@ -1666,11 +2343,10 @@ components:
             $ref: "#/components/schemas/Order/properties/id"
         Cart:
           $ref: "#/components/schemas/Cart"
-        
+
         defaultPIN:
           $ref: "#/components/schemas/pinAndPrice/properties/cityPIN"
 
-            
     Dish:
       description: schema for dish, contains an identifier id, dish photos, name, ratings from users, ingredients, steps to prepare the dish, dish details such as dish description, origin, etc. It is also categorized to a cuisine and has an average rating.
       type: object
@@ -1706,7 +2382,7 @@ components:
             properties:
               ingredient:
                 $ref: "#/components/schemas/Ingredient/properties/id"
-              quantity: 
+              quantity:
                 type: number
                 example: 3
               units:
@@ -1762,7 +2438,7 @@ components:
           $ref: "#/components/schemas/Dish/properties/avgRating"
         photoUrls:
           $ref: "#/components/schemas/Dish/properties/photoUrls"
-        
+
     Ingredient:
       description: an internal schema. It tracks the ingredient IDs with names and prices. The prices of ingredients vary from place to place. For example, cloves are native to Indonesia, India, Sri Lanka and other middle eastern coutries hence their price will remain low but in countries where they need to be imported to it will be higher. The system is intricate with sub-categories of spices as well to cater to authentic service.
       type: object
@@ -1780,7 +2456,7 @@ components:
         details:
           type: string
           example: The cayenne pepper is a type of Capsicum annuum. It is usually a moderately hot chili pepper used to flavor dishes. Cayenne peppers are a group of tapering
-        
+
         priceList:
           description: a list of PIN and price object as a lookup for ingredient prices
           type: array
@@ -1796,8 +2472,7 @@ components:
           $ref: "#/components/schemas/Ingredient/properties/id"
         details:
           $ref: "#/components/schemas/Ingredient/properties/details"
-        
-          
+
     pinAndPrice:
       description: PIN codes of various areas and prices of a particualr ingredient
       type: object
@@ -1824,6 +2499,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CartDishEntry"
+        collectionEntry:
+          description: an object dealing with collection entries to the cart to provide cart realted routes
+          type: array
+          items:
+            $ref: "#/components/schemas/CartCollectionEntry"
 
     CartDishEntry:
       description: Individual dish entries, consists of the dish, the quantity and price calculated thorugh lookup and PIN
@@ -1835,6 +2515,18 @@ components:
           type: integer
         dishPrice:
           type: number
+
+    CartCollectionEntry:
+      description: Individual collection entries, consists of the dish, the quantity and price calculated thorugh lookup and PIN
+      type: object
+      properties:
+        Collection:
+          $ref: "#/components/schemas/ChelfDailyCollection"
+        qty:
+          type: integer
+        dishPrice:
+          type: number
+
     Order:
       description: order schema, consists of ID to identify order, the Cart to process, total bill, the Delivery Address for the package to be delivered, payment method and current status of order
       type: object
@@ -1923,10 +2615,94 @@ components:
         complaintDescription:
           type: string
           example: "My meal reached an hour late from the expected time of delivery"
-        status: 
+        status:
           type: string
-          enum: 
+          enum:
             - posted
             - processing
             - resolved
             - failed
+    ChelfDailyMenu:
+      type: object
+      description: An array of ChelfDailyCollection
+      properties:
+        deliveryPIN:
+          $ref: "#/components/schemas/pinAndPrice/properties/cityPIN"
+        Menu:
+          type: array
+          items:
+            type: object
+            properties:
+              Collection:
+                $ref: "#/components/schemas/ChelfDailyCollection"
+              price:
+                type: number
+                example: 3456
+              subsType:
+                type: string
+                enum:
+                  - weekly
+                  - monthly
+                  - annual
+    ChelfDailyCollection:
+      type: object
+      required:
+        - id
+        - name
+        - menu
+        - rating
+        - cat
+      properties:
+        id:
+          type: string
+          example: CD101
+        name:
+          type: string
+          example: French Delights/ Homesick Indian / Royal English
+        menu:
+          type: array
+          items:
+            $ref: "#/components/schemas/MenuEntry"
+        cat:
+          $ref: "#/components/schemas/Dish/properties/cuisine"
+        rating:
+          type: array
+          items:
+            $ref: "#/components/schemas/Rating"
+
+    MenuEntry:
+      type: object
+      required:
+        - mealTime
+        - mealType
+        - dish
+      properties:
+        mealTime:
+          type: string
+          format: date-time
+        mealType:
+          type: string
+          enum:
+            - Breakfast
+            - Lunch
+            - Dinner
+        dish:
+          $ref: "#/components/schemas/DishView"
+  securitySchemes:
+    chelf_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: "http://chelf.swagger.io/oauth/dialog"
+          scopes:
+            "write:dishes": modify dishes in your account
+            "read:dishes": read your dishes
+            "write:Chefs": modify Chef profile
+            "read:Chefs": read Chef profile
+            "write:Ingredients": modify Ingredients
+            "read:Ingredients": read Ingredients
+
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

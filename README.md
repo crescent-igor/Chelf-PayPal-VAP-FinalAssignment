@@ -2,8 +2,6 @@
   
   <img src="https://github.com/crescent-igor/Chelf-PayPal-VAP-FinalAssignment/blob/master/chelf-logo.png">
 </p>
-YAML schema on swagger for Chelf
-
 This repository contains the schema for the proposed API called "Chelf" as part of the value added program conducted at VIT. It is a play on words with Chef and self, as it defines the motive behind the appication, everyone has a chelf in them.
 
 ![alt text][diag]
